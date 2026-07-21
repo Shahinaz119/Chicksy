@@ -1,0 +1,26 @@
+query_id,query,precision_at_k,recall_at_k,reciprocal_rank
+1,"According to the target growth benchmark, what should the minimum 7-day body weight be relative to a chick's initial placement weight?",0.2,1,1.0
+2,What is the target chick vent temperature range during transportation to the farm?,0.2,1,0.3333333333333333
+3,What does Table 2.6 use to assess whether chicks have found feed and water after placement?,0.2,1,1.0
+4,What determines the age at which brooding rings are completely removed?,0.2,1,1.0
+5,What behavioral signs indicate that chicks are cold?,0.0,0,0.0
+6,What does Table 2.4 specify regarding broiler house temperatures?,0.2,1,0.25
+7,What does Table 2.5 describe about the relationship between relative humidity and temperature?,0.0,0,0.0
+8,What behavior indicates that broilers are experiencing heat stress?,0.0,0,0.0
+9,How is the heater set-point typically configured relative to the house set-point temperature?,0.2,1,1.0
+10,What is the recommended air inlet opening size for minimum ventilation?,0.2,1,0.5
+11,What is the maximum recommended air speed at floor level for young chicks?,0.0,0,0.0
+12,"Besides supplying fresh air, what is an important role of the minimum ventilation system?",0.2,1,1.0
+13,How is feed typically provided to chicks during the first 10 days of life?,0.2,1,0.3333333333333333
+14,At what age is feed typically transitioned from starter to grower ration?,0.2,1,0.25
+15,What is an important part of feeder management according to the handbook?,0.0,0,0.0
+16,What must be ensured regarding drinking space for chicks?,0.2,1,0.5
+17,What should broiler drinking water look like in terms of quality?,0.0,0,0.0
+18,What is the average acceptable level of calcium in drinking water?,0.2,1,0.25
+19,What factors influence how a lighting program affects broiler production?,0.2,1,0.3333333333333333
+20,What is the maximum allowed variation in light intensity uniformity throughout the house?,0.2,1,0.5
+21,Why is reusing litter from flock to flock considered poor practice?,0.2,1,1.0
+22,What should litter be monitored for in order to avoid carcass downgrading?,0.2,1,1.0
+23,What is the maximum stocking density allowed above a body weight of 2.49 kg (5.5 lb)?,0.2,1,0.5
+24,How many days of downtime between flocks are recommended to reduce disease transmission risk?,0.2,1,0.5
+25,Which direction should broiler houses face to minimize solar heat gain?,0.2,1,0.2
