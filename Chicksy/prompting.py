@@ -46,6 +46,10 @@ Instructions:
 - Never repeat the answer.
 - Do NOT add extra information that is not in the context.
 - If the context contains the answer, answer it directly.
+- Answer in short paragraphs.
+- Use bullet points when appropriate.
+- Keep the answer under 120 words.
+- Do not repeat information.
 - ONLY if the context has absolutely no relevant information, reply exactly:
 "I couldn't find this information in the handbook."
 
