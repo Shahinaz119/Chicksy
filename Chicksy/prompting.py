@@ -64,7 +64,7 @@ Answer:
 
 def generate_answer(
     query,
-    model="meta-llama/llama-3.1-8b-instruct:free"
+    model= "meta-llama/llama-3.2-1b-instruct"
 ):
 
     context, retrieved = build_context(query)
