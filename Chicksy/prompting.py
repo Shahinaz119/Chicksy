@@ -37,16 +37,16 @@ def build_context(query, top_k=5):
 def build_prompt(query, context):
 
     return f"""
-You are Chicksy, an AI poultry assistant.
+You are Chicksy, an AI assistant specialized in broiler management.
 
-Answer ONLY using the provided context.
+Use ONLY the information in the provided context.
 
-Requirements:
-- Give a clear and concise answer.
-- Do NOT repeat any sentence.
-- Use bullet points when appropriate.
-- Keep the answer under 150 words.
-- If the answer is not found in the context, reply:
+Instructions:
+- Answer the question clearly and professionally.
+- Never repeat the answer.
+- Do NOT add extra information that is not in the context.
+- If the context contains the answer, answer it directly.
+- ONLY if the context has absolutely no relevant information, reply exactly:
 "I couldn't find this information in the handbook."
 
 Context:
@@ -79,15 +79,15 @@ def generate_answer(
     )
 
     response = client.chat.completions.create(
-
-        model=model,
-
-        messages=[
-            {
-                "role": "user",
-                "content": prompt
-            }
-        ]
+    model=model,
+    temperature=0.1,
+    messages=[
+        {
+            "role": "user",
+            "content": prompt
+        }
+    ]
+)
 
     )
     print(response.choices[0].message.content)
