@@ -82,6 +82,7 @@ def generate_answer(
     print("=" * 50)
     print(context)
     print("=" * 50)
+    print(context)
     prompt = build_prompt(
         query,
         context
