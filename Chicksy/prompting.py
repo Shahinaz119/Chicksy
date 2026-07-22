@@ -89,7 +89,7 @@ def generate_answer(
     ]
 )
 
-    )
+    
     print(response.choices[0].message.content)
     return {
 
