@@ -34,7 +34,13 @@ with st.sidebar:
     st.markdown("""
 AI-powered Poultry Farm Assistant
 
+---
 
+### 🚀 Features
+
+- Hybrid Retrieval
+- OpenRouter AI
+- Streamlit
 
 ---
 
