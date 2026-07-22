@@ -79,12 +79,12 @@ def generate_answer(
     )
 
     response = client.chat.completions.create(
-      model=model,
-      temperature=0.1,
-      messages=[
-        {
-            "role": "user",
-            "content": prompt
+        model=model,
+        temperature=0.1,
+        messages=[
+           {
+              "role": "user",
+              "content": prompt
         }
     ]
 )
