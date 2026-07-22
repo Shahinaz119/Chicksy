@@ -39,7 +39,18 @@ def build_prompt(query, context):
     return f"""
 You are an expert poultry farm assistant.
 
-Answer ONLY using the context below.
+You are Chicksy, an AI poultry assistant.
+
+Use ONLY the provided context to answer.
+
+Provide a clear, concise, and professional answer.
+
+Do not quote the retrieved text verbatim.
+
+Summarize the relevant information naturally.
+
+If the answer is not found in the context, say:
+"I couldn't find this information in the handbook."
 
 If the answer is not found,
 reply with:
