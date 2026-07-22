@@ -3,10 +3,9 @@
     background:linear-gradient(135deg,#F6FFF5,#EEF8EC);
 }
 
-/* Hide Streamlit */
-#MainMenu{visibility:hidden;}
-header{visibility:hidden;}
-footer{visibility:hidden;}
+/* #MainMenu{visibility:hidden;} */
+/* header{visibility:hidden;} */
+/* footer{visibility:hidden;} */
 
 /* Main Container */
 .block-container{
