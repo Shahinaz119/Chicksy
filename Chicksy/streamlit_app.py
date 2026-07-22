@@ -1,39 +1,46 @@
-import streamlit as st
-from prompting import generate_answer
-
-# ==================================
-# Page Config
-# ==================================
-
-st.set_page_config(
-    page_title="Chicksy",
-    page_icon="🐥",
-    layout="wide"
-)
-
-# ==================================
-# Custom CSS
-# ==================================
-
-st.markdown("""
-<style>
-
-.main {
-    background-color: #f8faf8;
+/* Background */
+.stApp{
+    background:linear-gradient(135deg,#F6FFF5,#EEF8EC);
 }
 
-h1 {
+/* Hide Streamlit */
+#MainMenu{visibility:hidden;}
+header{visibility:hidden;}
+footer{visibility:hidden;}
+
+/* Main Container */
+.block-container{
+    max-width:1150px;
+    padding-top:2rem;
+    padding-bottom:2rem;
+}
+
+/* Title */
+h1{
+    font-size:60px;
+    font-weight:800;
     color:#2E7D32;
-    text-align:center;
 }
 
+/* Chat Messages */
+.stChatMessage{
+    border-radius:18px;
+    padding:10px;
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+    margin-bottom:10px;
+}
+
+/* Sidebar */
+section[data-testid="stSidebar"]{
+    background:#E8F5E9;
+}
+
+/* Buttons */
 .stButton>button{
-    width:100%;
+    border-radius:14px;
     background:#43A047;
     color:white;
-    border-radius:12px;
-    height:50px;
-    font-size:18px;
+    border:none;
     font-weight:bold;
 }
 
@@ -41,80 +48,23 @@ h1 {
     background:#2E7D32;
 }
 
-</style>
-""", unsafe_allow_html=True)
+/* Expander */
+div[data-testid="stExpander"]{
+    border-radius:12px;
+    border:1px solid #C8E6C9;
+}
 
-# ==================================
-# Sidebar
-# ==================================
+/* Metric Cards */
+div[data-testid="stAlert"]{
+    border-radius:15px;
+}
 
-with st.sidebar:
+/* Chat Input */
+textarea{
+    border-radius:15px !important;
+}
 
-    st.title("🐥 Chicksy")
-
-    st.markdown("---")
-
-    st.write("### AI Broiler Farm Assistant")
-
-    st.write("""
-This chatbot answers questions from the
-ROSS Broiler Management Handbook.
-
-
-""")
-
-    st.markdown("---")
-
-    
-
-# ==================================
-# Main Page
-# ==================================
-
-st.title("🐥 Chicksy")
-
-st.subheader("Broiler Farm AI Assistant")
-
-st.write(
-    "Ask any question about broiler management."
-)
-
-question = st.text_input(
-    "Enter your question"
-)
-
-# ==================================
-# Generate Answer
-# ==================================
-
-if st.button("🚀 Ask Chicksy"):
-
-    if question.strip() == "":
-
-        st.warning("Please enter a question.")
-
-    else:
-
-        with st.spinner("Thinking..."):
-
-            result = generate_answer(
-                question
-            )
-
-        st.success("Answer")
-
-        st.write(result["answer"])
-
-        st.markdown("---")
-
-        st.subheader("📚 Retrieved Chunks")
-
-        for _, row in result["retrieved_chunks"].iterrows():
-
-            with st.expander(
-                f"Chunk {row['chunk_id']}"
-            ):
-
-                st.write(
-                    row["document"]
-                )
+/* Smooth animation */
+*{
+    transition:0.25s;
+}
