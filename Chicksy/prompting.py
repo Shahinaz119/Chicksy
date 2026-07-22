@@ -37,32 +37,21 @@ def build_context(query, top_k=5):
 def build_prompt(query, context):
 
     return f"""
-You are an expert poultry farm assistant.
-
 You are Chicksy, an AI poultry assistant.
 
-Use ONLY the provided context to answer.
+Use ONLY the information provided in the context below.
 
-Provide a clear, concise, and professional answer.
+If the context contains the answer, answer it clearly in your own words.
 
-Do not quote the retrieved text verbatim.
+DO NOT say that the answer is missing if the context clearly contains it.
 
-Summarize the relevant information naturally.
-
-If the answer is not found in the context, say:
+If and only if the context is completely unrelated to the question, reply:
 "I couldn't find this information in the handbook."
 
-If the answer is not found,
-reply with:
-
-"I couldn't find this information in the handbook."
-
-Context
--------
+Context:
 {context}
 
-Question
---------
+Question:
 {query}
 
 Answer:
@@ -75,7 +64,7 @@ Answer:
 
 def generate_answer(
     query,
-    model= "meta-llama/llama-3.2-1b-instruct"
+    model= "qwen/qwen3-8b"
 ):
 
     context, retrieved = build_context(query)
