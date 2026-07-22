@@ -64,7 +64,7 @@ Answer:
 
 def generate_answer(
     query,
-    model="openrouter/free"
+    model="deepseek/deepseek-chat-v3-0324:free"
 ):
 
     context, retrieved = build_context(query)
