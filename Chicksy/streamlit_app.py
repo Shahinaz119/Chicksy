@@ -74,19 +74,7 @@ st.markdown("<br>", unsafe_allow_html=True)
 # Feature Cards
 # ==========================
 
-col1,col2,col3,col4=st.columns(4)
 
-with col1:
-    st.info("⚡ **Fast Search**")
-
-with col2:
-    st.success("🤖 **AI Answers**")
-
-with col3:
-    st.warning("📚 **Official Handbook**")
-
-with col4:
-    st.info("🌿 **Hybrid Retrieval**")
 
 st.markdown("---")
 
