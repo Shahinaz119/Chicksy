@@ -128,15 +128,9 @@ if question:
 
             st.markdown("---")
 
-            with st.expander("📚 Retrieved Sources"):
+            answer = result["answer"]
 
-                for _,row in result["retrieved_chunks"].iterrows():
-
-                    st.markdown(f"### 📄 Chunk {row['chunk_id']}")
-
-                    st.write(row["document"])
-
-                    st.divider()
+st.markdown(answer)
 
     st.session_state.messages.append(
         {
