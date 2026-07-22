@@ -13,8 +13,15 @@ st.set_page_config(
 # ==========================
 # Load CSS
 # ==========================
-with open("assets/style.css") as f:
-    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+from pathlib import Path
+
+CSS_PATH = Path(__file__).parent / "assets" / "style.css"
+
+if CSS_PATH.exists():
+    with open(CSS_PATH, encoding="utf-8") as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+else:
+    st.warning(f"CSS file not found: {CSS_PATH}")
 
 # ==========================
 # Sidebar
