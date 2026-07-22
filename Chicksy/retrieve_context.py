@@ -1,35 +1,51 @@
 """
 retrieve_context.py
 -------------------
-Retrieve relevant chunks using TF-IDF, Embeddings, and Hybrid Retrieval.
+Retrieve relevant chunks using Hybrid Retrieval.
 """
 
+from pathlib import Path
+import pickle
 import numpy as np
-import pandas as pd
 
 from sklearn.metrics.pairwise import cosine_similarity
+from sentence_transformers import SentenceTransformer
 
-from vector_representation import (
-    load_corpus,
-    create_tfidf,
-    create_embeddings
-)
+from vector_representation import load_corpus
 
 
-# =====================================
-# Load Everything Once
-# =====================================
+# ==========================
+# Paths
+# ==========================
+
+BASE_DIR = Path(__file__).resolve().parent
+DATA_DIR = BASE_DIR / "data"
+
+
+# ==========================
+# Load Saved Objects
+# ==========================
 
 corpus = load_corpus()
 
-vectorizer, tfidf_matrix = create_tfidf(corpus)
+with open(DATA_DIR / "tfidf_vectorizer.pkl", "rb") as f:
+    vectorizer = pickle.load(f)
 
-embedding_model, embeddings = create_embeddings(corpus)
+with open(DATA_DIR / "tfidf_matrix.pkl", "rb") as f:
+    tfidf_matrix = pickle.load(f)
+
+embeddings = np.load(
+    DATA_DIR / "broiler_embeddings.npy"
+)
+
+embedding_model = SentenceTransformer(
+    "sentence-transformers/all-MiniLM-L6-v2"
+)
 
 
-# =====================================
+# ==========================
 # TF-IDF Retrieval
-# =====================================
+# ==========================
 
 def retrieve_with_tfidf(query, top_k=5):
 
@@ -51,13 +67,16 @@ def retrieve_with_tfidf(query, top_k=5):
     ]
 
 
-# =====================================
+# ==========================
 # Embedding Retrieval
-# =====================================
+# ==========================
 
 def retrieve_with_embeddings(query, top_k=5):
 
-    query_embedding = embedding_model.encode([query])
+    query_embedding = embedding_model.encode(
+        [query],
+        convert_to_numpy=True
+    )
 
     similarity = cosine_similarity(
         query_embedding,
@@ -75,63 +94,40 @@ def retrieve_with_embeddings(query, top_k=5):
     ]
 
 
-# =====================================
-# Hybrid Retrieval (Weighted RRF)
-# =====================================
+# ==========================
+# Hybrid Retrieval
+# ==========================
 
-def retrieve_with_hybrid(
-    query,
-    top_k=5,
-    alpha=0.5,
-    k_constant=60
-):
+def retrieve_with_hybrid(query, top_k=5):
 
-    tfidf_ranked = retrieve_with_tfidf(
-        query,
-        top_k=len(corpus)
-    )["chunk_id"].tolist()
+    tfidf_results = retrieve_with_tfidf(query, top_k)
 
-    embedding_ranked = retrieve_with_embeddings(
-        query,
-        top_k=len(corpus)
-    )["chunk_id"].tolist()
+    embedding_results = retrieve_with_embeddings(query, top_k)
 
-    scores = {}
+    combined = {}
 
-    for rank, cid in enumerate(tfidf_ranked, start=1):
+    for _, row in tfidf_results.iterrows():
+        combined[row["chunk_id"]] = row["score"]
 
-        scores[cid] = scores.get(
-            cid,
-            0
-        ) + alpha * (1 / (k_constant + rank))
-
-    for rank, cid in enumerate(
-        embedding_ranked,
-        start=1
-    ):
-
-        scores[cid] = scores.get(
-            cid,
-            0
-        ) + (1 - alpha) * (
-            1 / (k_constant + rank)
+    for _, row in embedding_results.iterrows():
+        combined[row["chunk_id"]] = (
+            combined.get(row["chunk_id"], 0)
+            + row["score"]
         )
 
     ranked = sorted(
-        scores.items(),
+        combined.items(),
         key=lambda x: x[1],
         reverse=True
     )[:top_k]
 
-    ids = [cid for cid, _ in ranked]
+    ids = [x[0] for x in ranked]
 
     results = corpus[
         corpus["chunk_id"].isin(ids)
     ].copy()
 
-    results["score"] = results[
-        "chunk_id"
-    ].map(dict(ranked))
+    results["score"] = results["chunk_id"].map(dict(ranked))
 
     return results.sort_values(
         "score",
@@ -139,34 +135,14 @@ def retrieve_with_hybrid(
     )
 
 
-# =====================================
+# ==========================
 # Test
-# =====================================
+# ==========================
 
 if __name__ == "__main__":
 
-    query = "What is crop fill?"
-
-    print("=" * 60)
-
-    print("TF-IDF")
-
     print(
-        retrieve_with_tfidf(query)
-    )
-
-    print("=" * 60)
-
-    print("Embeddings")
-
-    print(
-        retrieve_with_embeddings(query)
-    )
-
-    print("=" * 60)
-
-    print("Hybrid")
-
-    print(
-        retrieve_with_hybrid(query)
+        retrieve_with_hybrid(
+            "What is crop fill?"
+        )
     )
