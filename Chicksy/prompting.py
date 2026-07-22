@@ -39,13 +39,14 @@ def build_prompt(query, context):
     return f"""
 You are Chicksy, an AI poultry assistant.
 
-Use ONLY the information provided in the context below.
+Answer ONLY using the provided context.
 
-If the context contains the answer, answer it clearly in your own words.
-
-DO NOT say that the answer is missing if the context clearly contains it.
-
-If and only if the context is completely unrelated to the question, reply:
+Requirements:
+- Give a clear and concise answer.
+- Do NOT repeat any sentence.
+- Use bullet points when appropriate.
+- Keep the answer under 150 words.
+- If the answer is not found in the context, reply:
 "I couldn't find this information in the handbook."
 
 Context:
@@ -89,7 +90,7 @@ def generate_answer(
         ]
 
     )
-
+    print(response.choices[0].message.content)
     return {
 
         "query": query,
