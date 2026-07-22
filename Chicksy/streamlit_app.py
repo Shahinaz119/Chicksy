@@ -139,7 +139,7 @@ if question:
         }
     )
 
-st.markdown("---")
+
 
 st.markdown(
 """
