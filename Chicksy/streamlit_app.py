@@ -1,70 +1,156 @@
-/* Background */
-.stApp{
-    background:linear-gradient(135deg,#F6FFF5,#EEF8EC);
-}
+import streamlit as st
+from prompting import generate_answer
 
-/* Hide Streamlit */
-#MainMenu{visibility:hidden;}
-header{visibility:hidden;}
-footer{visibility:hidden;}
+# ==========================
+# Page Config
+# ==========================
+st.set_page_config(
+    page_title="🐥 Chicksy",
+    page_icon="🐥",
+    layout="wide",
+)
 
-/* Main Container */
-.block-container{
-    max-width:1150px;
-    padding-top:2rem;
-    padding-bottom:2rem;
-}
+# ==========================
+# Load CSS
+# ==========================
+with open("assets/style.css") as f:
+    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
-/* Title */
-h1{
-    font-size:60px;
-    font-weight:800;
-    color:#2E7D32;
-}
+# ==========================
+# Sidebar
+# ==========================
+with st.sidebar:
 
-/* Chat Messages */
-.stChatMessage{
-    border-radius:18px;
-    padding:10px;
-    box-shadow:0 4px 15px rgba(0,0,0,.08);
-    margin-bottom:10px;
-}
+    st.markdown("# 🐥 Chicksy")
 
-/* Sidebar */
-section[data-testid="stSidebar"]{
-    background:#E8F5E9;
-}
+    st.markdown(
+        """
+AI-powered Poultry Farm Assistant
 
-/* Buttons */
-.stButton>button{
-    border-radius:14px;
-    background:#43A047;
-    color:white;
-    border:none;
-    font-weight:bold;
-}
+---
 
-.stButton>button:hover{
-    background:#2E7D32;
-}
 
-/* Expander */
-div[data-testid="stExpander"]{
-    border-radius:12px;
-    border:1px solid #C8E6C9;
-}
 
-/* Metric Cards */
-div[data-testid="stAlert"]{
-    border-radius:15px;
-}
+---
 
-/* Chat Input */
-textarea{
-    border-radius:15px !important;
-}
+### 📚 Knowledge Base
 
-/* Smooth animation */
-*{
-    transition:0.25s;
-}
+Aviagen Ross Broiler Handbook
+
+---
+
+Made with ❤️
+"""
+    )
+
+# ==========================
+# Hero
+# ==========================
+
+st.markdown(
+"""
+<h1 style='text-align:center;'>🐥 Chicksy</h1>
+<p style='text-align:center;font-size:22px;color:gray;'>
+AI-powered Poultry Farm Assistant
+</p>
+<p style='text-align:center;font-size:17px;'>
+Ask anything about broiler management and receive intelligent answers
+from the official handbook.
+</p>
+""",
+unsafe_allow_html=True
+)
+
+st.markdown("<br>", unsafe_allow_html=True)
+
+# ==========================
+# Feature Cards
+# ==========================
+
+col1,col2,col3,col4=st.columns(4)
+
+with col1:
+    st.info("⚡ **Fast Search**")
+
+with col2:
+    st.success("🤖 **AI Answers**")
+
+with col3:
+    st.warning("📚 **Official Handbook**")
+
+with col4:
+    st.info("🌿 **Hybrid Retrieval**")
+
+st.markdown("---")
+
+# ==========================
+# Chat
+# ==========================
+
+if "messages" not in st.session_state:
+    st.session_state.messages=[]
+
+for message in st.session_state.messages:
+
+    with st.chat_message(message["role"]):
+        st.markdown(message["content"])
+
+question=st.chat_input("🐣 Ask Chicksy anything...")
+
+if question:
+
+    st.session_state.messages.append(
+        {
+            "role":"user",
+            "content":question
+        }
+    )
+
+    with st.chat_message("user"):
+        st.markdown(question)
+
+    with st.chat_message("assistant"):
+
+        with st.spinner("🐥 Chicksy is thinking..."):
+
+            result=generate_answer(question)
+
+            answer=result["answer"]
+
+            st.markdown(answer)
+
+            st.markdown("---")
+
+            with st.expander("📚 Retrieved Sources"):
+
+                for _,row in result["retrieved_chunks"].iterrows():
+
+                    st.markdown(f"### 📄 Chunk {row['chunk_id']}")
+
+                    st.write(row["document"])
+
+                    st.divider()
+
+    st.session_state.messages.append(
+        {
+            "role":"assistant",
+            "content":answer
+        }
+    )
+
+st.markdown("---")
+
+st.markdown(
+"""
+<div style='text-align:center;color:gray;'>
+
+🐥 Chicksy
+
+Built with ❤️ using
+
+Sentence Transformers • OpenRouter • Streamlit
+
+</div>
+""",
+unsafe_allow_html=True
+)
