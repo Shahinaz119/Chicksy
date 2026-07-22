@@ -8,7 +8,7 @@ st.set_page_config(
     page_title="🐥 Chicksy",
     page_icon="🐥",
     layout="wide",
-    initial_sidebar_state="collapsed",
+    initial_sidebar_state="expanded",
 )
 
 # ==========================
@@ -31,18 +31,13 @@ with st.sidebar:
 
     st.markdown("# 🐥 Chicksy")
 
-    st.markdown(
-        """
+    st.markdown("""
 AI-powered Poultry Farm Assistant
 
+
+
 ---
 
-
-
----
-if st.sidebar.button("🗑️ Clear Chat"):
-    st.session_state.messages = []
-    st.rerun()
 ### 📚 Knowledge Base
 
 Aviagen Ross Broiler Handbook
@@ -50,7 +45,7 @@ Aviagen Ross Broiler Handbook
 ---
 
 Made with ❤️
-"""
+""")
     )
 
 # ==========================
