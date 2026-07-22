@@ -130,7 +130,7 @@ if question:
 
             answer = result["answer"]
 
-            st.markdown(answer)
+    
 
     st.session_state.messages.append(
         {
